@@ -1,18 +1,20 @@
 # ccp-proyect
 CCP es una empresa de distribución y venta de productos de consumo masivo que busca implementar un proceso de innovación
 tecnológica para optimizar sus operaciones y abordar varios desafíos críticos. Entre estos se incluyen:
-• Inventarios desactualizados, que dificultan la gestión en tiempo real de las cantidades, el estado y las fechas de vencimiento de los
+
+- Inventarios desactualizados, que dificultan la gestión en tiempo real de las cantidades, el estado y las fechas de vencimiento de los
 productos, lo que genera demoras y errores en el cumplimiento de pedidos.
-• Ineficiencias logísticas, como problemas en la planificación de rutas y distribución, lo que incrementa los costos operativos y afecta los
+- Ineficiencias logísticas, como problemas en la planificación de rutas y distribución, lo que incrementa los costos operativos y afecta los
 tiempos de entrega.
-• Pérdidas económicas significativas debido al vencimiento de productos perecederos, robos en las bodegas y errores en las entregas,
+- Pérdidas económicas significativas debido al vencimiento de productos perecederos, robos en las bodegas y errores en las entregas,
 que representan un impacto financiero importante.
-• Fallas en la gestión de ventas, ya que la fuerza de ventas carece de herramientas tecnológicas para consultar inventarios en tiempo
+- Fallas en la gestión de ventas, ya que la fuerza de ventas carece de herramientas tecnológicas para consultar inventarios en tiempo
 real, gestionar pedidos de manera eficiente y mejorar la experiencia del cliente.
-• Falta de optimización en compras, lo que ocasiona sobreabastecimiento de productos con baja demanda y escasez de productos con
+- Falta de optimización en compras, lo que ocasiona sobreabastecimiento de productos con baja demanda y escasez de productos con
 alta demanda, impactando negativamente en las operaciones y los costos.
-• Problemas de integración, ya que las áreas de compras, ventas y logística no están interconectadas, lo que dificulta la comunicación y
+- Problemas de integración, ya que las áreas de compras, ventas y logística no están interconectadas, lo que dificulta la comunicación y
 el intercambio de datos críticos para la toma de decisiones.
+
 El objetivo de CCP es desarrollar un sistema tecnológico integral que permita mejorar la gestión de inventarios, optimizar rutas y
 procesos logísticos, reducir pérdidas económicas, potenciar la fuerza de ventas con herramientas innovadoras, implementar algoritmos
 de optimización en las compras y asegurar la integración efectiva entre todas las áreas operativas. Esto permitirá a la empresa aumentar
