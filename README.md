@@ -1,6 +1,6 @@
 # ccp-proyect
 CCP es una empresa de distribución y venta de productos de consumo masivo que busca implementar un proceso de innovación
-tecnológica para optimizar sus operaciones y abordar varios desafíos críticos. Entre estos se incluyen:
+tecnológica para optimizar sus operaciones y abordar varios desafíos críticos.
 
 El objetivo de CCP es desarrollar un sistema tecnológico integral que permita mejorar la gestión de inventarios, optimizar rutas y
 procesos logísticos, reducir pérdidas económicas, potenciar la fuerza de ventas con herramientas innovadoras, implementar algoritmos
