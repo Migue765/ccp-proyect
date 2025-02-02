@@ -1,4 +1,4 @@
-# ccp-proyect
+# CCP-proyect
 CCP es una empresa de distribución y venta de productos de consumo masivo que busca implementar un proceso de innovación
 tecnológica para optimizar sus operaciones y abordar varios desafíos críticos.
 
