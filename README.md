@@ -10,12 +10,12 @@ en distribución de productos de consumo masivo.
 
 ## Integrantes
 
-| Integrantes                             |
-|-----------------------------------------|
-| [Juan Mejía](https://github.com/JUANES545)|
-| [Jazmin Cordoba](https://github.com/JazminCorAndes)|
-| [Natalia Arandio](https://github.com/nataliaarandio)|
-| [Miguel Gómez](https://github.com/Migue765)|
+| Integrantes                             |  Correo |
+|-----------------------------------------|---------|
+| [Juan Mejía](https://github.com/JUANES545)|je.mejiai1@uniandes.edu.co|
+| [Jazmin Cordoba](https://github.com/JazminCorAndes)|jn.cordobap1@uniandes.edu.co|
+| [Natalia Arandio](https://github.com/nataliaarandio)|a.arandio@uniandes.edu.co|
+| [Miguel Gómez](https://github.com/Migue765)|ma.gomeza1@uniandes.edu.co|
 
 ## Historias de usuario
 - [HUs CPP](https://github.com/users/Migue765/projects/1)
