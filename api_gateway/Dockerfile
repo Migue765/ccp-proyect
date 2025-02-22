@@ -1,20 +1,20 @@
-# Use the official Node.js image as the base image
-FROM node:14
+# Use the official Python image as the base image
+FROM python:3.9-slim
 
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy the requirements file
+COPY requirements.txt ./
 
 # Install dependencies
-RUN npm install
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 8020
 
 # Command to run the application
-CMD ["node", "app.js"]
+CMD ["python", "flask","run","--host=8020"]

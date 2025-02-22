@@ -9,7 +9,7 @@ SERVICES = {
     "compras": "http://compras:5002"
 }
 
-@app.route("/api/<servicio>/<path:endpoint>", methods=["GET", "POST"])
+@app.route("/api/<servicio>/<path:endpoint>", methods=["GET", "POST","PUT","DELETE"])
 def proxy(servicio, endpoint):
     if servicio not in SERVICES:
         return jsonify({"error": "Servicio no encontrado"}), 404
