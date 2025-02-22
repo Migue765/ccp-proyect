@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 SERVICES = {
     "pedidos": "http://gestion_pedidos:5000", # pedidos:5000
-    "inventarios": "http://inventarios:5001",
-    "compras": "http://compras:5002"
+    "inventarios": "http://inventarios:3033",
+    "compras": "http://compras:4043"
 }
 
 @app.route("/api/<servicio>/<path:endpoint>", methods=["GET", "POST","PUT","DELETE"])

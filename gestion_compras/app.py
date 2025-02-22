@@ -6,5 +6,9 @@ app = Flask(__name__)
 def procesar_compra():
     return jsonify({"compra_aprobada": True}), 200  # Simula éxito en compra
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"mensaje": "Pong!"}), 200
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5002)
+    app.run(host="0.0.0.0", port=4043)
