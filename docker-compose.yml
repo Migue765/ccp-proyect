@@ -22,7 +22,6 @@ services:
       - "5000:5000"
     environment:
       - DATABASE_HOST=sqlite:///pedidos.db
-      - DATABASE_PORT=5432
 
   gestion_inventarios:
     image: gestion_inventarios_image
@@ -31,9 +30,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3033:3033"
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5454
 
   gestion_compras:
     image: gestion_compras_image
@@ -42,6 +38,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4043:4043"
-    environment:
-      - DATABASE_HOST=sqlite:///compras.db
-      - DATABASE_PORT=5423

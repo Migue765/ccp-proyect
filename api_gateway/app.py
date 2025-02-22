@@ -5,11 +5,11 @@ app = Flask(__name__)
 
 SERVICES = {
     "pedidos": "http://gestion_pedidos:5000", # pedidos:5000
-    "inventarios": "http://inventarios:3033",
-    "compras": "http://compras:4043"
+    "inventarios": "http://gestion_inventarios:3033",
+    "compras": "http://gestion_compras:4043"
 }
 
-@app.route("/api/<servicio>/<path:endpoint>", methods=["GET", "POST","PUT","DELETE"])
+@app.route("/api/<servicio>/<path:endpoint>", methods=["GET", "POST", "PUT", "DELETE"])
 def proxy(servicio, endpoint):
     if servicio not in SERVICES:
         return jsonify({"error": "Servicio no encontrado"}), 404
@@ -22,7 +22,6 @@ def proxy(servicio, endpoint):
     elif request.method == "DELETE":
         response = requests.delete(url, json=request.json)
     else:
-        print("hola")
         response = requests.Response()
         # response.status_code = 200
         # response._content = b'{"message": "Respuesta hardcodeada para pruebas"}'
