@@ -1,43 +1,32 @@
 version: '3.8'
 
 services:
-  pedidos:
-    build: ./gestion_pedidos
+  api_gateway:
+    image: api_gateway_image
+    build:
+      context: ./api_gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8020:8020"
+    depends_on:
+      - gestion_pedidos
+
+  gestion_pedidos:
+    image: gestion_pedidos_image
+    build:
+      context: ./gestion_pedidos
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
-    depends_on:
-      - rabbitmq
-      - db
     environment:
-      - FLASK_ENV=development
-      - DATABASE_URL=sqlite:///pedidos.db
-
-  inventarios:
-    build: ./gestion_inventarios
-    ports:
-      - "5001:5000"
-
-  compras:
-    build: ./gestion_compras
-    ports:
-      - "5002:5000"
-
-  api_gateway:
-    build: ./api_gateway
-    ports:
-      - "8080:80"
-    depends_on:
-      - pedidos
-      - inventarios
-      - compras
-
-  rabbitmq:
-    image: "rabbitmq:3-management"
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
 
   db:
-    image: "sqlite"
-    volumes:
-      - ./db/data:/var/lib/sqlite
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: gestion_pedidos_db
+    ports:
+      - "5432:5432"

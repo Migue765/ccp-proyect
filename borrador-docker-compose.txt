@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  pedidos:
+    build: ./gestion_pedidos
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbitmq
+      - db
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=sqlite:///pedidos.db
+
+  inventarios:
+    build: ./gestion_inventarios
+    ports:
+      - "5001:5000"
+
+  compras:
+    build: ./gestion_compras
+    ports:
+      - "5002:5000"
+
+  api_gateway:
+    build: ./api_gateway
+    ports:
+      - "8080:80"
+    depends_on:
+      - pedidos
+      - inventarios
+      - compras
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  db:
+    image: "sqlite"
+    volumes:
+      - ./db/data:/var/lib/sqlite

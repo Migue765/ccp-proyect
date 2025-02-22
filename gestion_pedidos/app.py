@@ -15,6 +15,10 @@ class Pedido(db.Model):
     direccion = db.Column(db.String(200), nullable=False)
     estado = db.Column(db.String(20), default="pendiente")  # Estados: pendiente, validado, error
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"mensaje": "Pong!"}), 200
+
 @app.route("/crear-pedido", methods=["POST"])
 def crear_pedido():
     data = request.json

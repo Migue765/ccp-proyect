@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 SERVICES = {
-    "pedidos": "http://pedidos:5000",
+    "pedidos": "http://gestion_pedidos:5000", # pedidos:5000
     "inventarios": "http://inventarios:5001",
     "compras": "http://compras:5002"
 }
@@ -17,11 +17,17 @@ def proxy(servicio, endpoint):
     url = f"{SERVICES[servicio]}/{endpoint}"
     if request.method == "POST":
         response = requests.post(url, json=request.json)
+    elif request.method == "PUT":
+        response = requests.put(url, json=request.json)
+    elif request.method == "DELETE":
+        response = requests.delete(url, json=request.json)
     else:
         print("hola")
         response = requests.Response()
-        response.status_code = 200
-        response._content = b'{"message": "Respuesta hardcodeada para pruebas"}'
+        # response.status_code = 200
+        # response._content = b'{"message": "Respuesta hardcodeada para pruebas"}'
+        response = requests.get(url, params=request.args)
+    
 
     return jsonify(response.json()), response.status_code
 
