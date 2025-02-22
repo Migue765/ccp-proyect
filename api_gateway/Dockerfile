@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8020
 
 # Command to run the application
-CMD ["python", "flask","run","--host=8020"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=8020"]

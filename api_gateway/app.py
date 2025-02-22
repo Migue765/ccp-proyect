@@ -18,9 +18,12 @@ def proxy(servicio, endpoint):
     if request.method == "POST":
         response = requests.post(url, json=request.json)
     else:
-        response = requests.get(url)
+        print("hola")
+        response = requests.Response()
+        response.status_code = 200
+        response._content = b'{"message": "Respuesta hardcodeada para pruebas"}'
 
     return jsonify(response.json()), response.status_code
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8020)
