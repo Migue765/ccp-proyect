@@ -38,3 +38,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4043:4043"
+
+  monitor:
+      image: monitor_image
+      build: 
+        context: ./monitor
+        dockerfile: Dockerfile
+      ports:
+        - "4053:4053" 
