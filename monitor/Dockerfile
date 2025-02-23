@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy the requirements file
 COPY requirements.txt ./

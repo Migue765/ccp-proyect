@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Conectar a RabbitMQ
 def conectar_rabbitmq():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv("RABBITMQ_HOST", "localhost")))
+    connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
     channel = connection.channel()
     channel.queue_declare(queue="monitor_pedidos")  # Cola de respuesta
     return connection, channel
