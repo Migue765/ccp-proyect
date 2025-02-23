@@ -12,6 +12,10 @@ def conectar_rabbitmq():
     channel.queue_declare(queue="monitor_pedidos")  # Cola de respuesta
     return connection, channel
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"mensaje": "Pong!"}), 200
+
 @app.route("/validar-pedido", methods=["POST"])
 def validar_pedido():
     data = request.json
