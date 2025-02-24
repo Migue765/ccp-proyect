@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import pika
 import json
 import os
+import random
 
 app = Flask(__name__)
 
@@ -14,6 +15,12 @@ def conectar_rabbitmq():
 
 @app.route("/ping", methods=["GET"])
 def ping():
+    return jsonify({"mensaje": "Pong!"}), 200
+
+@app.route("/ping/labotario", methods=["GET"])
+def laboratorio():
+    if random.random() < 0.1:
+        return jsonify({"mensaje": "Error en el laboratorio"}), 500
     return jsonify({"mensaje": "Pong!"}), 200
 
 @app.route("/validar-pedido", methods=["POST"])
@@ -49,4 +56,4 @@ def recibir_respuesta():
     channel.start_consuming()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5003)
+    app.run(host="0.0.0.0", port=4053)
