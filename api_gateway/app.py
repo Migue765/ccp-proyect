@@ -22,13 +22,9 @@ def proxy(servicio, endpoint):
         response = requests.put(url, json=request.json)
     elif request.method == "DELETE":
         response = requests.delete(url, json=request.json)
-    else:
-        response = requests.Response()
-        # response.status_code = 200
-        # response._content = b'{"message": "Respuesta hardcodeada para pruebas"}'
+    else:  # GETs
         response = requests.get(url, params=request.args)
     
-
     return jsonify(response.json()), response.status_code
 
 if __name__ == "__main__":

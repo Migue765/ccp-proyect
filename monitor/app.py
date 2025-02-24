@@ -26,8 +26,26 @@ def ping():
 
 @app.route("/ping/labotario", methods=["GET"])
 def laboratorio():
-    if random.random() < 0.1:
+    if random.random() < 0.5:
+        return jsonify({"mensaje": "Error simulado"}), 500
+    return jsonify({"mensaje": "Pong!"}), 200
+
+@app.route("/ping/labotario", methods=["POST"])
+def laboratorio_post():
+    if random.random() < 0.5:
         return jsonify({"mensaje": "Error en el laboratorio"}), 500
+    data = request.json
+    required_keys = ["producto", "cantidad", "direccion"]
+
+    for key in required_keys:
+        if key not in data:
+            return jsonify({"error": f"Falta el parámetro {key}"}), 400
+
+    if data["cantidad"] <= 0:
+        return jsonify({"error": "La cantidad debe ser mayor a 0"}), 400
+
+    if len(data["direccion"]) <= 2:
+        return jsonify({"error": "La dirección debe tener más de 2 caracteres"}), 400
     return jsonify({"mensaje": "Pong!"}), 200
 
 @app.route("/validar-pedido", methods=["POST"])
