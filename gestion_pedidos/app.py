@@ -19,16 +19,20 @@ class Pedido(db.Model):
 
 # Conectar a RabbitMQ
 def conectar_rabbitmq():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(os.getenv("RABBITMQ_HOST", "localhost")))
-    channel = connection.channel()
-    channel.queue_declare(queue="pedidos")
-    channel.queue_declare(queue="monitor_pedidos")  # Cola para enviar respuesta
-    return connection, channel
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
+        channel = connection.channel()
+        channel.queue_declare(queue="pedidos")
+        channel.queue_declare(queue="monitor_pedidos")  # Cola para enviar respuesta
+        return connection, channel
+    except Exception as e:
+        print(f"❌ Error conectando a RabbitMQ: {e}")
+        return None, None
+
 @app.route("/ping", methods=["GET"])
 def ping():
     return jsonify({"mensaje": "Pong!"}), 200
 
-# API para consultar pedidos
 @app.route("/pedidos", methods=["GET"])
 def obtener_pedidos():
     pedidos = Pedido.query.all()
@@ -38,7 +42,6 @@ def obtener_pedidos():
     ]
     return jsonify(resultado)
 
-# API para crear pedidos directamente sin RabbitMQ (para pruebas)
 @app.route("/crear-pedido", methods=["POST"])
 def crear_pedido():
     data = request.json
@@ -56,12 +59,10 @@ def crear_pedido():
 
     return jsonify({"mensaje": "Pedido creado correctamente", "id": nuevo_pedido.id}), 201
 
-# Función para procesar los pedidos desde la cola de RabbitMQ
 def procesar_pedido(ch, method, properties, body):
     pedido_data = json.loads(body)
     print(f"📦 Procesando pedido {pedido_data['id']}...")
 
-    # Buscar pedido en la DB (o crearlo si no existe)
     pedido = Pedido.query.get(pedido_data["id"])
     if not pedido:
         pedido = Pedido(
@@ -73,7 +74,6 @@ def procesar_pedido(ch, method, properties, body):
         )
         db.session.add(pedido)
 
-    # Validación de pedido
     if pedido.cantidad <= 0:
         pedido.estado = "error"
         respuesta = {"id": pedido.id, "estado": "error", "motivo": "Cantidad inválida"}
@@ -83,20 +83,23 @@ def procesar_pedido(ch, method, properties, body):
 
     db.session.commit()
 
-    # Enviar respuesta a `monitor_pedidos`
     connection, channel = conectar_rabbitmq()
-    channel.basic_publish(
-        exchange="",
-        routing_key="monitor_pedidos",
-        body=json.dumps(respuesta)
-    )
-    connection.close()
+    if connection and channel:
+        channel.basic_publish(
+            exchange="",
+            routing_key="monitor_pedidos",
+            body=json.dumps(respuesta)
+        )
+        connection.close()
 
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
-# Worker para consumir pedidos de la cola
 def iniciar_worker():
     connection, channel = conectar_rabbitmq()
+    if not connection or not channel:
+        print("❌ No se pudo conectar a RabbitMQ. Worker no iniciado.")
+        return
+
     channel.basic_consume(queue="pedidos", on_message_callback=procesar_pedido)
     print("🚀 Esperando pedidos...")
     channel.start_consuming()

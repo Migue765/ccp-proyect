@@ -5,12 +5,19 @@ import os
 
 app = Flask(__name__)
 
+# Almacenar respuestas recibidas
+respuestas_recibidas = []
+
 # Conectar a RabbitMQ
 def conectar_rabbitmq():
-    connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
-    channel = connection.channel()
-    channel.queue_declare(queue="monitor_pedidos")  # Cola de respuesta
-    return connection, channel
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
+        channel = connection.channel()
+        channel.queue_declare(queue="monitor_pedidos")  # Cola de respuesta
+        return connection, channel
+    except Exception as e:
+        print(f"❌ Error conectando a RabbitMQ: {e}")
+        return None, None
 
 @app.route("/ping", methods=["GET"])
 def ping():
@@ -22,8 +29,11 @@ def validar_pedido():
     if not data.get("id"):
         return jsonify({"error": "ID del pedido requerido"}), 400
 
+    connection, channel = conectar_rabbitmq()
+    if not connection or not channel:
+        return jsonify({"error": "Error conectando a RabbitMQ"}), 500
+
     try:
-        connection, channel = conectar_rabbitmq()
         channel.queue_declare(queue="pedidos")  # Cola de entrada
         channel.basic_publish(
             exchange="",
@@ -32,16 +42,24 @@ def validar_pedido():
         )
         connection.close()
     except Exception as e:
-        return jsonify({"error": "Error enviando a la cola"}), 500
+        return jsonify({"error": f"Error enviando a la cola: {e}"}), 500
 
     return jsonify({"mensaje": "Pedido enviado para validación"}), 202
+
+@app.route("/respuestas", methods=["GET"])
+def obtener_respuestas():
+    return jsonify(respuestas_recibidas), 200
 
 # Worker para recibir respuestas
 def recibir_respuesta():
     connection, channel = conectar_rabbitmq()
+    if not connection or not channel:
+        print("❌ No se pudo conectar a RabbitMQ. Worker no iniciado.")
+        return
 
     def callback(ch, method, properties, body):
         respuesta = json.loads(body)
+        respuestas_recibidas.append(respuesta)
         print(f"📩 Respuesta recibida: {respuesta}")
 
     channel.basic_consume(queue="monitor_pedidos", on_message_callback=callback, auto_ack=True)
