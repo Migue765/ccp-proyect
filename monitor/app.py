@@ -32,7 +32,7 @@ def laboratorio():
 
 @app.route("/ping/labotario", methods=["POST"])
 def laboratorio_post():
-    if random.random() < 0.5:
+    if random.random() < 0.1:
         return jsonify({"mensaje": "Error en el laboratorio"}), 500
     data = request.json
     required_keys = ["producto", "cantidad", "direccion"]
@@ -43,6 +43,9 @@ def laboratorio_post():
 
     if data["cantidad"] <= 0:
         return jsonify({"error": "La cantidad debe ser mayor a 0"}), 400
+    
+    if data["cantidad"] > 10000:
+        return jsonify({"error": "No existe suficiente stock para cubrir el pedido"}), 400
 
     if len(data["direccion"]) <= 2:
         return jsonify({"error": "La dirección debe tener más de 2 caracteres"}), 400
