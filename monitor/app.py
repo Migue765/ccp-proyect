@@ -24,19 +24,13 @@ def conectar_rabbitmq():
 def ping():
     return jsonify({"mensaje": "Pong!"}), 200
 
-@app.route("/ping/labotario", methods=["GET"])
-def laboratorio():
-    if random.random() < 0.5:
-        return jsonify({"mensaje": "Error simulado"}), 500
-    return jsonify({"mensaje": "Pong!"}), 200
-
 @app.route("/ping/labotario", methods=["POST"])
 def laboratorio_post():
     if random.random() < 0.1:
         return jsonify({"mensaje": "Error en el laboratorio"}), 500
+    
     data = request.json
     required_keys = ["producto", "cantidad", "direccion"]
-
     for key in required_keys:
         if key not in data:
             return jsonify({"error": f"Falta el parámetro {key}"}), 400
